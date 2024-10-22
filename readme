@@ -3,5 +3,5 @@ npm install @react-navigation/native
 npm install react-native-safe-area-context
 npm install react-native-paper
 npm install @react-native-async-storage/async-storage
-
+npm install --save @react-native-firebase/app
 npx expo run:android

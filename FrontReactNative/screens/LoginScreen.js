@@ -4,7 +4,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 GoogleSignin.configure({
   webClientId:
-    "219565927373-7bkvf7lgg537i35h508pptbc0q51ekus.apps.googleusercontent.com", // Firebase Console'den aldığınız Web Client ID'yi buraya ekleyin
+    "219565927373-rijlgp2ak4bjv6ijg88kr8j18tpmh1gs.apps.googleusercontent.com", // Firebase Console'den aldığınız Web Client ID'yi buraya ekleyin
 });
 const LoginScreen = () => {
   const handleGoogleSignIn = async () => {
