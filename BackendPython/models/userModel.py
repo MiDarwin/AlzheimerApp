@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 class User(BaseModel):
+    _id: str
     first_name: str
     last_name: str
     age: int

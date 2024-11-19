@@ -22,3 +22,6 @@ async def login(login_request: LoginRequest):
         login_request.last_name,
         login_request.password
     )
+@router.get("/user/{user_id}")
+async def get_user(user_id: str):
+    return await get_user_by_id(user_id)
