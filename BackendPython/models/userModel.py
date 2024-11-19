@@ -8,3 +8,4 @@ class User(BaseModel):
     age: int
     gender: str
     patient_number: Optional[int]  # İlişkili hasta numarası
+    password: str
