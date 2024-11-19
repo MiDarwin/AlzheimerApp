@@ -1,12 +1,14 @@
 # Kayıt olma, giriş
 # controllers/authController.py
+import jwt
 import secrets
+from datetime import datetime, timedelta
 from fastapi import HTTPException
 from models.userModel import User
 from db import users_collection
 from bcrypt import hashpw, gensalt
 from bcrypt import checkpw
-
+from config.config import SECRET_KEY
 # Kayıt oluşturma işlemi
 async def register_user(user: User):
     # 5 haneli rastgele ID oluştur
@@ -29,7 +31,6 @@ async def register_user(user: User):
     return {"message": "Kullanıcı başarıyla oluşturuldu!", "user_id": random_id}
 
 # Giriş yapma işlemi
-
 async def login_user(first_name: str, last_name: str, password: str):
     # Kullanıcıyı bul
     user = await users_collection.find_one({"first_name": first_name, "last_name": last_name})
@@ -40,9 +41,14 @@ async def login_user(first_name: str, last_name: str, password: str):
     if not checkpw(password.encode('utf-8'), user["password"].encode('utf-8')):
         raise HTTPException(status_code=401, detail="Şifre yanlış.")
 
-    # Token olarak kullanıcı ID'sini döndür
-    token = user["_id"]  # Kullanıcı ID'si artık token olarak kullanılacak
-    return {"token": token, "message": "Giriş başarılı!"}
+    # Token oluştur
+    token_data = {
+        "user_id": user["_id"],  # Kullanıcı ID'si
+        "exp": datetime.utcnow() + timedelta(hours=1)  # Token'in süresi (1 saat)
+    }
+    token = jwt.encode(token_data, SECRET_KEY, algorithm="HS256")
+
+    return {"token": f"Bearer {token}", "message": "Giriş başarılı!"}
 
 async def get_user_by_id(user_id: str):
     user = await users_collection.find_one({"_id": user_id})
