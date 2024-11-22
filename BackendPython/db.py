@@ -7,3 +7,4 @@ db = client["alzheimer_app"]  # Veritabanı adı
 
 # users_collection adlı bir koleksiyon oluştur
 users_collection = db["users"]
+patients_collection = db["patients"]
