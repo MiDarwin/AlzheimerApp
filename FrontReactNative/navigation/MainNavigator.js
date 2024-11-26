@@ -10,31 +10,9 @@ import HomeScreen from "../screens/HomeScreen";
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
-
-  useEffect(() => {
-    const checkUserToken = async () => {
-      try {
-        const token = await AsyncStorage.getItem("userToken");
-        setIsLoggedIn(!!token); // Eğer token varsa true, yoksa false yap
-      } catch (error) {
-        console.error("Error checking token", error);
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkUserToken();
-  }, []);
-
-  if (isLoggedIn === null) {
-    // Eğer token durumu hala kontrol ediliyorsa bir yükleme ekranı gösterebiliriz
-    return null; // Bu kısımda bir loading spinner dönebilirsin
-  }
-
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={isLoggedIn ? "Home" : "Login"}>
-        <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Navigator initialRouteName={"Register"}>
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
