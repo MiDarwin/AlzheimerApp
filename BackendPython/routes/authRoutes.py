@@ -8,8 +8,7 @@ from controllers.authController import get_user_by_id
 router = APIRouter()
 # Giriş işlemi için bir Pydantic model oluştur
 class LoginRequest(BaseModel):
-    first_name: str
-    last_name: str
+    email:str
     password: str
 @router.post("/register")
 async def register(user: User):
@@ -19,8 +18,7 @@ async def register(user: User):
 @router.post("/login")
 async def login(login_request: LoginRequest):
     return await login_user(
-        login_request.first_name,
-        login_request.last_name,
+        login_request.email,
         login_request.password
     )
 @router.get("/user", dependencies=[Depends(JWTBearer())])

@@ -14,10 +14,18 @@ async def register_user(user: User):
     # 5 haneli rastgele ID oluştur
     random_id = str(secrets.randbelow(10 ** 5)).zfill(5)  # 00001 - 99999 arasında değer
 
-    # Kullanıcı zaten var mı kontrol et
-    existing_user = await users_collection.find_one({"_id": random_id})
+    # Kullanıcı zaten var mı kontrol et (ID ve e-posta kontrolü)
+    existing_user = await users_collection.find_one({"email": user.email})
     if existing_user:
-        raise HTTPException(status_code=400, detail="Bu kullanıcı ID'si zaten var.")
+        raise HTTPException(status_code=400, detail="Bu e-posta ile zaten kayıtlı bir kullanıcı var.")
+
+    # E-posta uzantısını kontrol et
+    allowed_domains = ["@gmail.com", "@hotmail.com"]
+    if not any(user.email.endswith(domain) for domain in allowed_domains):
+        raise HTTPException(
+            status_code=400,
+            detail="E-posta sadece '@gmail.com' veya '@hotmail.com' uzantılı olmalıdır."
+        )
 
     # Şifreyi hashle
     hashed_password = hashpw(user.password.encode('utf-8'), gensalt())
@@ -31,11 +39,11 @@ async def register_user(user: User):
     return {"message": "Kullanıcı başarıyla oluşturuldu!", "user_id": random_id}
 
 # Giriş yapma işlemi
-async def login_user(first_name: str, last_name: str, password: str):
-    # Kullanıcıyı bul
-    user = await users_collection.find_one({"first_name": first_name, "last_name": last_name})
+async def login_user(email: str, password: str):
+    # Kullanıcıyı e-posta ile bul
+    user = await users_collection.find_one({"email": email})
     if not user:
-        raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı.")
+        raise HTTPException(status_code=404, detail="E-posta ile kayıtlı bir kullanıcı bulunamadı.")
 
     # Şifreyi doğrula
     if not checkpw(password.encode('utf-8'), user["password"].encode('utf-8')):
