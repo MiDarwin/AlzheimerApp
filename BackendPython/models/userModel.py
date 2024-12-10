@@ -7,5 +7,4 @@ class User(BaseModel):
     first_name: str
     last_name: str
     email: EmailStr  # Email doğrulama için Pydantic'in EmailStr tipini kullandık
-    patient_number: Optional[int]  # İlişkili hasta numarası
     password: str
