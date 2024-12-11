@@ -22,10 +22,7 @@ async def register_user(user: User):
     # E-posta uzantısını kontrol et
     allowed_domains = ["@gmail.com", "@hotmail.com"]
     if not any(user.email.endswith(domain) for domain in allowed_domains):
-        raise HTTPException(
-            status_code=400,
-            detail="E-posta sadece '@gmail.com' veya '@hotmail.com' uzantılı olmalıdır."
-        )
+        raise HTTPException(status_code=400, detail="E-posta sadece '@gmail.com' veya '@hotmail.com' uzantılı olmalıdır.")
 
     # Şifreyi hashle
     hashed_password = hashpw(user.password.encode('utf-8'), gensalt())

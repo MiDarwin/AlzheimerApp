@@ -7,9 +7,10 @@ export const registerUser = async (userData) => {
     const response = await axios.post(`${BASE_URL}/register`, userData);
     return response.data; // API'nin döndürdüğü yanıtı geri döndür
   } catch (error) {
-    throw (
-      error.response?.data?.message || "Kayıt işlemi sırasında bir hata oluştu!"
-    ); // Hata mesajını döndür
+    // Backend'den gelen detaylı hata mesajını kullan
+    const errorMessage =
+      error.response?.data?.detail || "Kayıt işlemi sırasında bir hata oluştu!";
+    throw errorMessage;
   }
 };
 

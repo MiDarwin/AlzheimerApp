@@ -18,12 +18,14 @@ const RegisterScreen = ({ navigation }) => {
       });
 
       Alert.alert("Başarılı", "Kayıt işlemi başarılı!");
-      //navigation.navigate("Login"); // Başarılı kayıt sonrası Login ekranına yönlendirme
+      navigation.navigate("Login"); // Başarılı kayıt sonrası Login ekranına yönlendirme
     } catch (error) {
       Alert.alert("Hata", error); // Hata mesajını göster
     }
   };
-
+  const login = async () => {
+    navigation.navigate("Login");
+  };
   return (
     <View>
       <TextInput
@@ -52,6 +54,7 @@ const RegisterScreen = ({ navigation }) => {
         style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
       />
       <Button title="Kayıt Ol" onPress={handleRegister} />
+      <Button title="lOGİN Ekranı" onPress={login} />
     </View>
   );
 };

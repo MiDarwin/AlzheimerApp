@@ -1,10 +1,10 @@
 # models/userModel.py
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel,Field
 from typing import Optional
 
 class User(BaseModel):
     _id: str
     first_name: str
     last_name: str
-    email: EmailStr  # Email doğrulama için Pydantic'in EmailStr tipini kullandık
+    email: str = Field(..., description="E-posta '@gmail.com' veya '@hotmail.com' uzantılı olmalıdır.")
     password: str
