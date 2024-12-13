@@ -14,13 +14,13 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const loginUser = async (loginData) => {
+export const loginUser = async (userData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/login`, loginData);
-    return response.data; // Giriş işlemi yanıtını döndür
+    const response = await axios.post(`${BASE_URL}/login`, userData);
+    return response.data.token; // Backend'den dönen token'i geri döndür
   } catch (error) {
-    throw (
-      error.response?.data?.message || "Giriş işlemi sırasında bir hata oluştu!"
-    );
+    const errorMessage =
+      error.response?.data?.detail || "Giriş işlemi sırasında bir hata oluştu!";
+    throw errorMessage;
   }
 };
