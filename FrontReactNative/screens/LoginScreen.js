@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loginUser } from "../api/auth"; // auth.js içindeki login fonksiyonunu çağırıyoruz
@@ -7,6 +7,17 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Token'i kontrol eden fonksiyon
+  const checkToken = async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      navigation.navigate("Home"); // Token varsa direkt Home sayfasına geç
+    }
+  };
+
+  useEffect(() => {
+    checkToken(); // Sayfa yüklendiğinde token'i kontrol et
+  }, []);
   const handleLogin = async () => {
     try {
       const token = await loginUser({ email, password }); // loginUser auth.js'de tanımlı

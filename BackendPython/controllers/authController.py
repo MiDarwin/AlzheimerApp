@@ -59,4 +59,4 @@ async def get_user_by_id(user_id: str):
     user = await users_collection.find_one({"_id": user_id})
     if not user:
         raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı.")
-    return {"first_name": user["first_name"], "last_name": user["last_name"], "age": user["age"]}
+    return {"first_name": user["first_name"], "last_name": user["last_name"]}

@@ -25,3 +25,14 @@ async def login(login_request: LoginRequest):
 async def get_user_data(payload: dict = Depends(JWTBearer())):
     user_id = payload.get("user_id")
     return await get_user_by_id(user_id)
+
+@router.get("/user-info", dependencies=[Depends(JWTBearer())])
+async def get_user_info(payload: dict = Depends(JWTBearer())):
+    user_id = payload.get("user_id")
+    user = await get_user_by_id(user_id)  # Kullanıcı bilgilerini al
+
+    # Eğer kullanıcı bulunamazsa get_user_by_id zaten hata döndürecek
+    return {
+        "first_name": user["first_name"],
+        "last_name": user["last_name"]
+    }
