@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, Alert } from "react-native";
+import { View, Alert, SafeAreaView, StyleSheet } from "react-native";
+import { Button, TextInput, Text } from "react-native-paper";
 import { registerUser } from "../api/auth"; // API çağrısını buradan yapıyoruz
+import { SafeAreaProvide } from "react-native-safe-area-context";
 
 const RegisterScreen = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
@@ -27,8 +29,19 @@ const RegisterScreen = ({ navigation }) => {
     navigation.navigate("Login");
   };
   return (
-    <View>
+    <View
+      style={{
+        padding: 20,
+        flex: 1,
+        marginBottom: 0,
+        backgroundColor: "#B3C8CF",
+      }}
+    >
+      <Text variant="displayMedium" style={{ marginTop: 1, marginLeft: 20 }}>
+        Hesap Aç
+      </Text>
       <TextInput
+        activeOutlineColor="red"
         placeholder="İsim"
         value={firstName}
         onChangeText={setFirstName}
@@ -53,10 +66,27 @@ const RegisterScreen = ({ navigation }) => {
         secureTextEntry
         style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
       />
-      <Button title="Kayıt Ol" onPress={handleRegister} />
-      <Button title="lOGİN Ekranı" onPress={login} />
+      <Button
+        mode="contained"
+        style={{ marginBottom: 10, backgroundColor: "#E5E1DA" }}
+        gonPress={handleRegister}
+      >
+        Kayıt Ol
+      </Button>
+
+      <Button
+        mode="contained"
+        onPress={login}
+        style={{ marginBottom: 10, backgroundColor: "#E5E1DA" }}
+      >
+        lOGİN Ekranı
+      </Button>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 export default RegisterScreen;
