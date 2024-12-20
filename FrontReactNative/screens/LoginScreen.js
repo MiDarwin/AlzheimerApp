@@ -23,6 +23,9 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       const token = await loginUser({ email, password }); // loginUser auth.js'de tanımlı
+      if (!token) {
+        throw new Error("Token alınamadı. Lütfen tekrar giriş yapın.");
+      }
       await AsyncStorage.setItem("token", token); // Token'i kaydet
       Alert.alert("Başarılı", "Giriş işlemi başarılı!");
       navigation.navigate("Home"); // Başarılı giriş sonrası ana sayfaya yönlendir

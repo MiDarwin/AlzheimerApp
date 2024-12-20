@@ -17,7 +17,7 @@ export const registerUser = async (userData) => {
 axios.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem("token");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`; // Token'i header'a ekle
+    config.headers.Authorization = `${token}`; // Token'i header'a ekle
   }
   return config;
 });
@@ -29,5 +29,16 @@ export const loginUser = async (userData) => {
     const errorMessage =
       error.response?.data?.detail || "Giriş işlemi sırasında bir hata oluştu!";
     throw errorMessage;
+  }
+};
+export const getUserInfo = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/user-info`);
+    return response.data; // Kullanıcı bilgilerini döndür
+  } catch (error) {
+    throw (
+      error.response?.data?.detail || // Backend'den gelen detail kullan
+      "Kullanıcı bilgileri alınırken bir hata oluştu."
+    );
   }
 };
