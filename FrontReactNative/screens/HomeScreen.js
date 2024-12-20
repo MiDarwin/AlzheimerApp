@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import globalStyles from "../styles/globalStyles";
+import { Button, TextInput, Text } from "react-native-paper";
 
 const HomeScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>Welcome to the Home Screen!</Text>
+    <View style={globalStyles.container}>
+      <Text variant="titleMedium" style={globalStyles.text}>
+        Welcome
+      </Text>
     </View>
   );
 };

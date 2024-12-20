@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Button, Alert } from "react-native";
+import { View, Alert } from "react-native";
+import { Button, TextInput, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loginUser } from "../api/auth"; // auth.js içindeki login fonksiyonunu çağırıyoruz
+import globalStyles from "../styles/globalStyles";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -30,21 +32,27 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={globalStyles.container}>
       <TextInput
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={globalStyles.textInput}
       />
       <TextInput
         placeholder="Şifre"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={globalStyles.textInput}
       />
-      <Button title="Giriş Yap" onPress={handleLogin} />
+      <Button
+        mode="contained"
+        onPress={handleLogin}
+        style={globalStyles.button}
+      >
+        Giriş Yap
+      </Button>
     </View>
   );
 };

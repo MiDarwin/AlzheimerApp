@@ -3,6 +3,7 @@ import { View, Alert, SafeAreaView, StyleSheet } from "react-native";
 import { Button, TextInput, Text } from "react-native-paper";
 import { registerUser } from "../api/auth"; // API çağrısını buradan yapıyoruz
 import { SafeAreaProvide } from "react-native-safe-area-context";
+import globalStyles from "../styles/globalStyles";
 
 const RegisterScreen = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
@@ -29,15 +30,8 @@ const RegisterScreen = ({ navigation }) => {
     navigation.navigate("Login");
   };
   return (
-    <View
-      style={{
-        padding: 20,
-        flex: 1,
-        marginBottom: 0,
-        backgroundColor: "#B3C8CF",
-      }}
-    >
-      <Text variant="displayMedium" style={{ marginTop: 1, marginLeft: 20 }}>
+    <View style={globalStyles.container}>
+      <Text variant="displayMedium" style={globalStyles.title}>
         Hesap Aç
       </Text>
       <TextInput
@@ -45,41 +39,37 @@ const RegisterScreen = ({ navigation }) => {
         placeholder="İsim"
         value={firstName}
         onChangeText={setFirstName}
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={globalStyles.textInput}
       />
       <TextInput
         placeholder="Soyisim"
         value={lastName}
         onChangeText={setLastName}
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={globalStyles.textInput}
       />
       <TextInput
         placeholder="Email"
         value={mail}
         onChangeText={setMail}
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={globalStyles.textInput}
       />
       <TextInput
         placeholder="Şifre"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={globalStyles.textInput}
       />
       <Button
         mode="contained"
-        style={{ marginBottom: 10, backgroundColor: "#E5E1DA" }}
-        gonPress={handleRegister}
+        style={globalStyles.button}
+        onPress={handleRegister}
       >
         Kayıt Ol
       </Button>
 
-      <Button
-        mode="contained"
-        onPress={login}
-        style={{ marginBottom: 10, backgroundColor: "#E5E1DA" }}
-      >
-        lOGİN Ekranı
+      <Button mode="contained" onPress={login} style={globalStyles.button}>
+        Login Ekranı
       </Button>
     </View>
   );
