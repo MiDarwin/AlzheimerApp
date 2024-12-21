@@ -7,16 +7,28 @@ router = APIRouter()
 
 
 # POST isteği: Hasta oluştur
-@router.post("/patients")
-async def add_patient(patient: PatientModel):
-    # Kullanıcı ID'sini kontrol et
-    if not validate_user_id(patient.user_id):
-        raise HTTPException(status_code=400, detail="Geçersiz kullanıcı ID'si. ID 5 haneli olmalıdır.")
+@router.post("/patients", dependencies=[Depends(JWTBearer())])
+async def add_patient(
+    patient_data: dict,  # Raw JSON verisini al
+    payload: dict = Depends(JWTBearer())  # Token'den gelen veriyi al
+):
+    # Token'den user_id'yi al
+    user_id = payload.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Geçersiz token. Kullanıcı ID bulunamadı.")
+
+    # Gelen veriye token'den alınan user_id'yi ekle
+    patient_data["user_id"] = user_id
+
+    # Veriyi PatientModel'e dönüştür
+    try:
+        patient = PatientModel(**patient_data)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Model oluşturulurken hata oluştu: {str(e)}")
 
     # Hasta ekleme işlemi
     result = await create_patient(patient)
     return {"message": "Hasta başarıyla eklendi.", "data": result}
-
 
 # GET isteği: Token'deki user_id'ye göre hasta bilgilerini getir
 @router.get("/patients", dependencies=[Depends(JWTBearer())])
