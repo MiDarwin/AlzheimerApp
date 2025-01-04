@@ -20,6 +20,13 @@ const globalStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  innerContainer: {
+    padding: 1,
+  },
+  SegmentedButtons: {
+    marginBottom: 10,
+    backgroundColor: "#B3C8CF",
+  },
   title: { marginTop: 1, marginLeft: 45, fontSize: 50 },
   text: { marginTop: 20, marginLeft: 45 },
 });

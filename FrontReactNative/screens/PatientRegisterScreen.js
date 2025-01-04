@@ -6,6 +6,7 @@ import {
   Text,
   Divider,
   RadioButton,
+  SegmentedButtons,
 } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 
@@ -31,7 +32,7 @@ const PatientRegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <ScrollView contentContainerStyle={styles.innerContainer}>
+      <ScrollView contentContainerStyle={globalStyles.innerContainer}>
         <Text variant="headlineMedium" style={styles.header}>
           Hasta Kaydı
         </Text>
@@ -49,18 +50,42 @@ const PatientRegisterScreen = ({ navigation }) => {
         />
 
         <Text style={styles.subHeader}>Çocuk Sayısı:</Text>
-        <RadioButton.Group
-          onValueChange={(value) => handleChildCountChange(value)}
+        <SegmentedButtons
+          style={globalStyles.SegmentedButtons}
           value={childCount}
-        >
-          {[...Array(7)].map((_, index) => (
-            <RadioButton.Item
-              key={index}
-              label={`${index}`}
-              value={`${index}`}
-            />
-          ))}
-        </RadioButton.Group>
+          density="high"
+          onValueChange={(value) => handleChildCountChange(value)}
+          buttons={[
+            {
+              label: "0",
+              value: "0",
+              style: {
+                backgroundColor: childCount === "0" ? "#E5E1DA" : "#B3C8CF",
+              },
+            },
+            {
+              label: "1",
+              value: "1",
+              style: {
+                backgroundColor: childCount === "1" ? "#E5E1DA" : "#B3C8CF",
+              },
+            },
+            {
+              label: "2",
+              value: "2",
+              style: {
+                backgroundColor: childCount === "2" ? "#E5E1DA" : "#B3C8CF",
+              },
+            },
+            {
+              label: "3",
+              value: "3",
+              style: {
+                backgroundColor: childCount === "3" ? "#E5E1DA" : "#B3C8CF",
+              },
+            },
+          ]}
+        />
 
         {childrenNames.map((_, index) => (
           <TextInput
@@ -68,7 +93,7 @@ const PatientRegisterScreen = ({ navigation }) => {
             label={`Çocuk ${index + 1} Adı`}
             value={childrenNames[index]}
             onChangeText={(name) => handleChildNameChange(index, name)}
-            style={styles.input}
+            style={globalStyles.textInput}
           />
         ))}
 
@@ -96,17 +121,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f5f5",
   },
-  innerContainer: {
-    padding: 5,
-  },
+
   header: {
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 5,
   },
+
   subHeader: {
     fontSize: 16,
     fontWeight: "bold",
-    marginVertical: 10,
+    marginVertical: 5,
   },
 });
 
