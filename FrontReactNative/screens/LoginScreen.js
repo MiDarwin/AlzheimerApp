@@ -36,6 +36,9 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={globalStyles.container}>
+      <Text variant="displayMedium" style={globalStyles.title}>
+        Giriş Yap!
+      </Text>
       <TextInput
         placeholder="Email"
         value={email}

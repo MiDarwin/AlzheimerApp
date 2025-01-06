@@ -1,4 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+const { width, height } = Dimensions.get("window");
 
 const globalStyles = StyleSheet.create({
   container: {
@@ -27,7 +28,13 @@ const globalStyles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: "#B3C8CF",
   },
-  title: { marginTop: 1, marginLeft: 45, fontSize: 50 },
+  title: {
+    position: "relative",
+    top: height * 0.01,
+    alignSelf: "center",
+    fontSize: width * 0.12,
+    marginBottom: 10,
+  },
   text: { marginTop: 20, marginLeft: 45 },
 });
 
