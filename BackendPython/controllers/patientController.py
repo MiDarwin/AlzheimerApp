@@ -16,6 +16,10 @@ async def create_patient(patient: PatientModel):
 async def get_all_patients():
     patients = await patients_collection.find().to_list(length=100)
     return patients
+# Kullanıcıya bağlı hasta var mı kontrol et
+async def check_existing_patient(user_id: str) -> bool:
+    existing_patient = await patients_collection.find_one({"user_id": user_id})
+    return existing_patient is not None
 
 
 # Kullanıcı ID'sine bağlı hasta bilgilerini getir

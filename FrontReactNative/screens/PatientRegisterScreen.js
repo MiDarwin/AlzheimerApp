@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Alert } from "react-native";
 import {
   TextInput,
   Button,
@@ -9,13 +9,14 @@ import {
   SegmentedButtons,
 } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
+import { registerPatient } from "../api/patient";
 
 const PatientRegisterScreen = ({ navigation }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [district, setDistrict] = useState("");
   const [childCount, setChildCount] = useState("0");
   const [childrenNames, setChildrenNames] = useState([]);
-  const [district, setDistrict] = useState("");
 
   const handleChildCountChange = (value) => {
     setChildCount(value);
@@ -30,6 +31,27 @@ const PatientRegisterScreen = ({ navigation }) => {
     setChildrenNames(updatedChildren);
   };
 
+  const handlePatientRegister = async () => {
+    try {
+      // Hasta bilgilerini al
+      const patientData = {
+        first_name,
+        last_name,
+        child_count: childCount,
+        children_names: childrenNames,
+        district,
+      };
+
+      // API'ye gönder
+      const response = await registerPatient(patientData);
+      console.log("Hasta kaydı başarılı:", response);
+      Alert.alert("Başarılı", "Hasta kaydı başarıyla tamamlandı!");
+    } catch (error) {
+      console.error("Hasta kaydı sırasında hata:", error);
+      Alert.alert("Hata", error);
+    }
+  };
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <ScrollView contentContainerStyle={globalStyles.innerContainer}>
@@ -38,13 +60,13 @@ const PatientRegisterScreen = ({ navigation }) => {
         </Text>
         <TextInput
           label="İsim"
-          value={firstName}
+          value={first_name}
           onChangeText={setFirstName}
           style={globalStyles.textInput}
         />
         <TextInput
           label="Soyisim"
-          value={lastName}
+          value={last_name}
           onChangeText={setLastName}
           style={globalStyles.textInput}
         />
@@ -107,7 +129,7 @@ const PatientRegisterScreen = ({ navigation }) => {
         <Button
           mode="contained-tonal"
           style={globalStyles.button}
-          onPress={() => {}}
+          onPress={handlePatientRegister}
         >
           Kaydet
         </Button>

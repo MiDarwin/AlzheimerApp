@@ -5,6 +5,7 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from "../screens/HomeScreen";
 import PatientRegisterScreen from "../screens/PatientRegisterScreen";
+import SpeechScreen from "../screens/SpeechScreen";
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
@@ -29,6 +30,11 @@ const MainNavigator = () => {
         <Stack.Screen
           name="PatientRegisterScreen"
           component={PatientRegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SpeechScreen"
+          component={SpeechScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

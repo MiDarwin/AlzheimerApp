@@ -34,6 +34,9 @@ const HomeScreen = ({ navigation }) => {
   const PatientRegisterScreen = async () => {
     navigation.navigate("PatientRegisterScreen");
   };
+  const SpeechScreen = async () => {
+    navigation.navigate("SpeechScreen"); // Başarılı giriş sonrası ana sayfaya yönlendir
+  };
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>
@@ -45,6 +48,13 @@ const HomeScreen = ({ navigation }) => {
         style={globalStyles.button}
       >
         Hasta Kayıt
+      </Button>
+      <Button
+        mode="contained"
+        onPress={SpeechScreen}
+        style={globalStyles.button}
+      >
+        Sesli Cevap!
       </Button>
     </SafeAreaView>
   );
