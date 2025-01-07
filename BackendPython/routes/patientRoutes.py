@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from controllers.patientController import validate_user_id, create_patient, get_patient_by_user_id,check_existing_patient
+from controllers.patientController import delete_patient_by_user_id, create_patient, get_patient_by_user_id,check_existing_patient
 from authMiddleware import JWTBearer
 from db import patients_collection
 
@@ -153,3 +153,17 @@ async def validate_answer(
         return {"message": "Yanlış cevap."}
 
     raise HTTPException(status_code=400, detail="Geçersiz soru ID.")
+# DELETE isteği: Hasta sil
+@router.delete("/patients", dependencies=[Depends(JWTBearer())])
+async def delete_patient(payload: dict = Depends(JWTBearer())):
+    """
+    Token'den gelen user_id ile ilgili hastayı siler.
+    """
+    # Token'den user_id'yi al
+    user_id = payload.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Geçersiz token. Kullanıcı ID bulunamadı.")
+
+    # Hasta silme işlemi
+    result = await delete_patient_by_user_id(user_id)
+    return result
