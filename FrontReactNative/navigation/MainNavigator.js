@@ -6,6 +6,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from "../screens/HomeScreen";
 import PatientRegisterScreen from "../screens/PatientRegisterScreen";
 import SpeechScreen from "../screens/SpeechScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
@@ -15,6 +16,11 @@ const MainNavigator = () => {
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
+          options={{ headerShown: false }} // Header'ı gizledik
+        />
+        <Stack.Screen
+          name="SettingsScreen"
+          component={SettingsScreen}
           options={{ headerShown: false }} // Header'ı gizledik
         />
         <Stack.Screen

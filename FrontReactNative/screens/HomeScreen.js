@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, ActivityIndicator, Alert } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, FAB } from "react-native-paper";
 import globalStyles from "../styles/globalStyles";
 import { getUserInfo } from "../api/auth";
+import SettingsScreen from "./SettingsScreen";
 
 const HomeScreen = ({ navigation }) => {
   const [user, setUser] = useState(null); // Kullanıcı bilgileri
@@ -41,6 +42,9 @@ const HomeScreen = ({ navigation }) => {
   const SpeechScreen = async () => {
     navigation.navigate("SpeechScreen"); // Başarılı giriş sonrası ana sayfaya yönlendir
   };
+  const SettingsScreen = async () => {
+    navigation.navigate("SettingsScreen");
+  };
   return (
     <SafeAreaView style={globalStyles.container}>
       <Text style={globalStyles.title}>
@@ -60,6 +64,11 @@ const HomeScreen = ({ navigation }) => {
       >
         Sesli Cevap!
       </Button>
+      <FAB
+        icon="settings-helper"
+        style={globalStyles.fab}
+        onPress={SettingsScreen}
+      />
     </SafeAreaView>
   );
 };

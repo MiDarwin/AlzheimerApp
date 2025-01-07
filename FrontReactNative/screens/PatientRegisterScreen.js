@@ -46,6 +46,7 @@ const PatientRegisterScreen = ({ navigation }) => {
       const response = await registerPatient(patientData);
       console.log("Hasta kaydı başarılı:", response);
       Alert.alert("Başarılı", "Hasta kaydı başarıyla tamamlandı!");
+      navigation.navigate("Home");
     } catch (error) {
       console.error("Hasta kaydı sırasında hata:", error);
       Alert.alert("Hata", error);

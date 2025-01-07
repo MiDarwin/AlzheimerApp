@@ -32,6 +32,12 @@ const globalStyles = StyleSheet.create({
   innerContainer: {
     padding: 1,
   },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
   SegmentedButtons: {
     marginBottom: 10,
     backgroundColor: "#B3C8CF",

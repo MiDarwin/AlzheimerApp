@@ -6,7 +6,7 @@ from db import patients_collection
 from models.patientModel import PatientModel
 router = APIRouter()
 import re
-
+import random
 def clean_text(input_text: str) -> str:
     """
     Verilen metinden özel karakterleri temizler.
@@ -58,18 +58,60 @@ async def get_patients_by_token(payload: dict = Depends(JWTBearer())):
     return {"data": patient}
 
 @router.get("/questions", dependencies=[Depends(JWTBearer())])
-async def get_questions():
+async def get_questions(
+    payload: dict = Depends(JWTBearer())  # Token'den gelen user_id
+):
     """
-    Hastaya yöneltilecek soruları döner.
+    Hastaya yöneltilecek soruları, doğru cevapları ve sahte seçenekleri döner.
     """
-    return {
-        "questions": [
-            {"id": 1, "question": "Çocuğunuzun adı nedir?"},
-            {"id": 2, "question": "Kaç çocuğunuz var?"},
-            {"id": 3, "question": "Hangi ilçede yaşıyorsunuz?"}
-        ]
-    }
+    # Token'den user_id'yi al
+    user_id = payload.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Geçersiz token. Kullanıcı ID bulunamadı.")
 
+    # Kullanıcıya ait hasta bilgilerini al
+    patient = await patients_collection.find_one({"user_id": user_id})
+    if not patient:
+        raise HTTPException(status_code=404, detail="Hasta bilgisi bulunamadı.")
+
+    # Sorular ve cevaplar
+    questions = [
+        {
+            "id": 1,
+            "question": "Çocuğunuzun adı nedir?",
+            "correct_answer": random.choice(patient.get("children_names", ["Ali"])),
+            "fake_answers": random.sample(
+                ["Ayşe", "Mehmet", "Zeynep", "Burak", "Hülya"], 1
+            )
+        },
+        {
+            "id": 2,
+            "question": "Kaç çocuğunuz var?",
+            "correct_answer": str(patient.get("child_count", 0)),
+            "fake_answers": random.sample(
+                [str(x) for x in range(1, 6) if x != patient.get("child_count", 0)], 1
+            )
+        },
+        {
+            "id": 3,
+            "question": "Hangi ilçede yaşıyorsunuz?",
+            "correct_answer": patient.get("district", "Bilinmiyor"),
+            "fake_answers": random.sample(
+                ["Kadıköy", "Beşiktaş", "Üsküdar", "Bakırköy", "Çankaya"], 1
+            )
+        }
+    ]
+
+    # Tüm sorulara doğru cevap ve yanlış cevapları karıştırarak ekle
+    for question in questions:
+        options = [question["correct_answer"]] + question["fake_answers"]
+        random.shuffle(options)
+        question["options"] = options  # Şıkları ekle
+
+        # Doğru cevabı frontend'de kolay kontrol için işaretle
+        question.pop("correct_answer")  # Sadece `options` kalsın
+
+    return {"questions": questions}
 @router.post("/validate-answer", dependencies=[Depends(JWTBearer())])
 async def validate_answer(
     answer: dict,  # Örn: {"question_id": 1, "answer": "Ali"}
