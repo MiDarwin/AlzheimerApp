@@ -8,6 +8,14 @@ const globalStyles = StyleSheet.create({
     marginBottom: 0,
     backgroundColor: "#B3C8CF", // Genel arka plan rengi
   },
+  activityContainer: {
+    flex: 1, // Tüm ekranı kaplayacak şekilde genişler
+    justifyContent: "center", // Dikey eksende ortalar
+    alignItems: "center", // Yatay eksende ortalar
+    padding: 20, // İç kenar boşluğu
+    marginBottom: 0, // Alt boşluğu sıfırlar
+    backgroundColor: "#B3C8CF", // Genel arka plan rengi
+  },
   textInput: {
     borderWidth: 1,
     marginBottom: 10,

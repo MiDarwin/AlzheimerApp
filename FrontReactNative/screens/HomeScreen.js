@@ -26,8 +26,12 @@ const HomeScreen = ({ navigation }) => {
   if (loading) {
     // Bilgiler yüklenirken yüklenme spinner'ı göster
     return (
-      <SafeAreaView style={globalStyles.container}>
-        <ActivityIndicator size="large" color="#6200ea" />
+      <SafeAreaView style={globalStyles.activityContainer}>
+        <ActivityIndicator
+          size="large"
+          color="#E5E1DA"
+          style={{ justifyContent: "center", alignItems: "center" }}
+        />
       </SafeAreaView>
     );
   }
