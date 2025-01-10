@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, FAB } from "react-native-paper";
 import { getPatientInfo, deletePatient } from "../api/patient"; // API metodları
 import globalStyles from "../styles/globalStyles";
 import { getUserInfo } from "../api/auth"; // Kullanıcı bilgisi için API
@@ -61,7 +61,9 @@ const HomeScreen = ({ navigation }) => {
   const startReminderExercise = () => {
     navigation.navigate("SpeechScreen"); // Sesli soru-cevap ekranına yönlendir
   };
-
+  const SettingsScreen = async () => {
+    navigation.navigate("SettingsScreen");
+  };
   if (loading) {
     // Yüklenme durumunda spinner göster
     return (
@@ -133,6 +135,11 @@ const HomeScreen = ({ navigation }) => {
           style={globalStyles.logo}
         />
       </View>
+      <FAB
+        icon="settings-helper"
+        style={globalStyles.fab}
+        onPress={SettingsScreen}
+      />
     </SafeAreaView>
   );
 };
