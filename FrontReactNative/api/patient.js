@@ -25,10 +25,18 @@ export const registerPatient = async (patientData) => {
 // Soruları çekmek için GET isteği
 export const getQuestions = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/questions`); // BASE_URL eklendi
+    const response = await axios.get(`${BASE_URL}/questions`);
     return response.data;
   } catch (error) {
-    console.error("Soruları çekerken hata oluştu:", error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      console.error("Response status:", error.response.status);
+      console.error("Response headers:", error.response.headers);
+    } else if (error.request) {
+      console.error("Request error:", error.request);
+    } else {
+      console.error("Error message:", error.message);
+    }
     throw error;
   }
 };
@@ -41,5 +49,29 @@ export const validateAnswer = async (payload) => {
   } catch (error) {
     console.error("Cevap doğrulama sırasında hata oluştu:", error);
     throw error;
+  }
+};
+// Hasta bilgilerini al
+export const getPatientInfo = async () => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const response = await axios.get(`${BASE_URL}/patients`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data.data;
+  } catch (error) {
+    throw new Error("Hasta bilgileri alınırken hata oluştu.");
+  }
+};
+
+// Hasta bilgilerini sil
+export const deletePatient = async () => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    await axios.delete(`${BASE_URL}/patients`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (error) {
+    throw new Error("Hasta silme işlemi sırasında hata oluştu.");
   }
 };

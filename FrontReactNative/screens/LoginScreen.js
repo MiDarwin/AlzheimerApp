@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, StyleSheet, Image } from "react-native";
 import { Button, TextInput, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loginUser } from "../api/auth"; // auth.js içindeki login fonksiyonunu çağırıyoruz
@@ -20,6 +20,7 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     checkToken(); // Sayfa yüklendiğinde token'i kontrol et
   }, []);
+
   const handleLogin = async () => {
     try {
       const token = await loginUser({ email, password }); // loginUser auth.js'de tanımlı
@@ -30,35 +31,53 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert("Başarılı", "Giriş işlemi başarılı!");
       navigation.navigate("Home"); // Başarılı giriş sonrası ana sayfaya yönlendir
     } catch (error) {
-      Alert.alert("Hata", error); // Backend'den gelen hata mesajını göster
+      Alert.alert("Hata", error.message); // Backend'den gelen hata mesajını göster
     }
+  };
+
+  const kayit = async () => {
+    navigation.navigate("Register");
   };
 
   return (
     <View style={globalStyles.container}>
-      <Text variant="displayMedium" style={globalStyles.title}>
-        Giriş Yap!
-      </Text>
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        style={globalStyles.textInput}
-      />
-      <TextInput
-        placeholder="Şifre"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={globalStyles.textInput}
-      />
-      <Button
-        mode="contained"
-        onPress={handleLogin}
-        style={globalStyles.button}
-      >
-        Giriş Yap
-      </Button>
+      {/* İçerik kısmı */}
+      <View style={globalStyles.content}>
+        <Text variant="displayMedium" style={globalStyles.title}>
+          Giriş Yap!
+        </Text>
+        <TextInput
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          style={globalStyles.textInput}
+        />
+        <TextInput
+          placeholder="Şifre"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={globalStyles.textInput}
+        />
+        <Button
+          mode="contained"
+          onPress={handleLogin}
+          style={globalStyles.button}
+        >
+          Giriş Yap
+        </Button>
+        <Button mode="contained" onPress={kayit} style={globalStyles.button}>
+          Kayıt Ol
+        </Button>
+      </View>
+
+      {/* Footer kısmı (Logo) */}
+      <View style={globalStyles.footer}>
+        <Image
+          source={require("../assets/AlzheimerAppLogo.png")}
+          style={globalStyles.logo}
+        />
+      </View>
     </View>
   );
 };

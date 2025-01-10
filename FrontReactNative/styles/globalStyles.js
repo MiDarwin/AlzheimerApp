@@ -3,10 +3,24 @@ const { width, height } = Dimensions.get("window");
 
 const globalStyles = StyleSheet.create({
   container: {
-    padding: 20,
     flex: 1,
-    marginBottom: 0,
-    backgroundColor: "#B3C8CF", // Genel arka plan rengi
+    justifyContent: "space-between", // İçerik ve footer arasında boşluk bırakır
+    backgroundColor: "#fff",
+  },
+  content: {
+    flex: 1,
+    justifyContent: "center", // İçeriği dikeyde ortalar
+    padding: 16,
+  },
+  footer: {
+    alignItems: "center", // Logoyu yatayda ortalar
+    paddingVertical: 16, // Üst ve alt boşluk
+    backgroundColor: "#fff", // Opsiyonel: Footer alanı için arka plan rengi
+  },
+  logo: {
+    width: 100, // Logonun genişliği
+    height: 50, // Logonun yüksekliği
+    resizeMode: "contain", // Görselin boyutlarını koruyarak sığdırır
   },
   activityContainer: {
     flex: 1, // Tüm ekranı kaplayacak şekilde genişler
